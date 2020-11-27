@@ -34,6 +34,32 @@ public class ModelDao {
 		return brandName;
 	}
 	
+	public String getModelDimensions(Model model){
+		int modelId = model.getModelId();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String dimensions = "";
+		int length =0;
+		int width = 0;
+		int height = 0;
+		try{
+			con = DbUtil.getConnection();
+			String query = "select length, width, height from Dimensions where id=?";
+			ps.setInt(1, modelId);
+			ps = con.prepareStatement(query);
+			rs = ps.executeQuery();
+			if(rs.next()){
+				length = rs.getInt("length");
+				width = rs.getInt("width");
+				height = rs.getInt("height");
+				dimensions = "Length = "+length+" mm, and Width = "+width+" mm, and Height = "+height;
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dimensions;
+	}
 	public Model getModelById(int id){
 		Model model = new Model();
 		
