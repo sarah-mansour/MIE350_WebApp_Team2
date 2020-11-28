@@ -15,6 +15,10 @@ public class AccountDao {
 	
 	static Connection currentCon = null;
 	static ResultSet rs = null;
+	static String logMessage; // this holds the last message by the last action/method called
+	static int actionResult; // this indicates if the action/method was successful or not
+	// a return value of 0 means the action was successful and other numbers means failure otherwise
+	// you can see the log message to know what exactly happened during the failure
 	
 	public static Account login(Account member) {
 
@@ -61,11 +65,11 @@ public class AccountDao {
 				String lastName = rs.getString("last_name");
 				int id = rs.getInt("id");
 				
-				member.setAccountId(id);
+				member.setId(id);
 				member.setEmail(email);
 				member.setPassword(password);
-				member.setFname(firstName);
-				member.setLname(lastName);
+				member.setFirstName(firstName);
+				member.setLastName(lastName);
 				member.setValid(true);
 			}
 		}
@@ -78,6 +82,45 @@ public class AccountDao {
 		 */
 		return member;
 
+	}
+	
+	public static Account logout (Account member) {
+		member.setValid(false); // invalidate the user in order to logout
+		return member;
+	}
+	
+	public static Account signup(Account newMember){	
+		
+		int id = newMember.getId();
+		String firstName = newMember.getFirstName();
+		String lastName = newMember.getLastName();
+		String email = newMember.getEmail();
+		String password = newMember.getPassword();
+		
+		//Statement preparedStatement = null;	
+		try{
+			currentCon = DbUtil.getConnection();
+			String query = "insert into Account(id, email,password,first_name,last_name) values (?,?,?,?,?)";
+			PreparedStatement preparedStatement = currentCon.prepareStatement(query);
+			
+			preparedStatement.setInt(1, id);
+			preparedStatement.setString(2, email);
+			preparedStatement.setString(3, password);
+			preparedStatement.setString(4, firstName);
+			preparedStatement.setString(5, lastName);
+			
+			int i = preparedStatement.executeUpdate();
+			if (i !=0){
+				logMessage = "Account Created!";
+				actionResult = 0; // this means it was successful
+			}
+			
+		}catch(SQLException e){
+			logMessage =  "Account creation failed: An Exception has occurred!";
+			actionResult = -1; // this indicates that the method failed
+		}
+		//return "Failed to Create Account";
+		return newMember;
 	}
 	
 

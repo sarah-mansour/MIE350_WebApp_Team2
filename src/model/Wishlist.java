@@ -1,21 +1,30 @@
 package model;
 
-import java.util.ArrayList;
-
 public class Wishlist {
 	
-	private ArrayList<Integer> wishlist = new ArrayList<Integer>();
+	private Account account;
+	private Model model;
 	
-	public void addModel(Model model){
-		wishlist.add(model.getModelId());
-	}
-		
-	public void deleteModel(Model model){
-		wishlist.remove(model.getModelId());
+	public Account getAccount() {
+		return account;
 	}
 	
-	public ArrayList getWishlist(){
-		return wishlist;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+	}
+	
+	@Override
+	public String toString () {
+		return String.format("%s wishes to have  %s", account, model);
+	}
+	
+	
 }

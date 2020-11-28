@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Account;
+import dao.AccountDao;
 import util.DbUtil;
 
 /**
@@ -33,6 +35,7 @@ public class TestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
+		
 		try{
 			Connection connection = DbUtil.getConnection();
 			connection.createStatement().executeQuery("select * from Model");
@@ -44,6 +47,15 @@ public class TestServlet extends HttpServlet {
 			
 		}
 		
+		Account account = new Account();
+		account.setId(1738);
+		account.setEmail("dummy@testing.com");
+		account.setPassword("testing123");
+		account.setFirstName("dummy");
+		account.setLastName("test");
+		
+		out.print(AccountDao.signup(account));
+		
 	}
 
 	/**
@@ -54,3 +66,4 @@ public class TestServlet extends HttpServlet {
 	}
 
 }
+

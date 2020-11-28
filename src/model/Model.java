@@ -1,111 +1,149 @@
 package model;
 
 public class Model {
-	private int modelId;
-	private String modelName;
-	private int yearIssued;
-	private int battery;
-	private int power;
-	private int range;
-	private int speed;
-	private int acceleration;
-	private String driveType;
-	private int numOfSeats;
-	private int numOfDoors;
-	private int price;
-	private String powerSource;
+	
+	private int id;
+	private String model;
+	private int year_issued;
+	private double battery;
+	private double power;
+	private int battery_range;
+	private double top_speed;
+	private double acceleration;
+	private String drive_type;
+	private int number_of_seats;
+	private int number_of_doors;
+	private int starting_price;
+	private String power_source;
 	private String category;
-	private int brandId;
+	private Brand brand;
 	
+	public int getId() {
+		return id;
+	}
 	
-	public int getModelId(){
-		return modelId;
+	public void setId(int id) {
+		this.id = id;
 	}
-	public void setModelId(int id){
-		this.modelId = id;
+
+	public String getModel() {
+		return model;
 	}
-	public String getModelName(){
-		return modelName;
+
+	public void setModel(String model) {
+		this.model = model;
 	}
-	public void setModelName(String name){
-		this.modelName = name;
+
+	public int getYearIssued() {
+		return year_issued;
 	}
-	public int getYearIssued(){
-		return yearIssued;
+
+	public void setYearIssued(int year_issued) {
+		this.year_issued = year_issued;
 	}
-	public void setYearIssued(int year){
-		this.yearIssued = year;
-	}
-	public int getBattery(){
-		return battery;
-	}
-	public void setBattery(int battery){
-		this.battery = battery;
-	}
-	public int getPower(){
+
+	public double getPower() {
 		return power;
 	}
-	public void setPower(int power){
-		this.power= power;
+
+	public void setPower(double power) {
+		this.power = power;
 	}
-	public int getRange(){
-		return range;
+
+	public double getBattery() {
+		return battery;
 	}
-	public void setRange(int range){
-		this.range = range;
+
+	public void setBattery(double battery) {
+		this.battery = battery;
 	}
-	public int getSpeed(){
-		return speed;
+
+	public double getTopSpeed() {
+		return top_speed;
 	}
-	public void setSpeed(int speed){
-		this.speed = speed;
+
+	public void setTopSpeed(double top_speed) {
+		this.top_speed = top_speed;
 	}
-	public int getAcceleration(){
+
+	public int getBatteryRange() {
+		return battery_range;
+	}
+
+	public void setBatteryRange(int battery_range) {
+		this.battery_range = battery_range;
+	}
+
+	public double getAcceleration() {
 		return acceleration;
 	}
-	public void setAcceleration(int acceleration){
-		this.acceleration= acceleration;
+
+	public void setAcceleration(double acceleration) {
+		this.acceleration = acceleration;
 	}
-	public String getDriveType(){
-		return driveType;
+
+	public String getDriveType() {
+		return drive_type;
 	}
-	public void setDriveType(String type){
-		this.driveType = type;
+
+	public void setDriveType(String drive_type) {
+		this.drive_type = drive_type;
 	}
-	public int getNumOfSeats(){
-		return numOfSeats;
+
+	public int getNumberOfDoors() {
+		return number_of_doors;
 	}
-	public void setNumofSeats(int numSeats){
-		this.numOfSeats = numSeats;
+
+	public void setNumberOfDoors(int number_of_doors) {
+		this.number_of_doors = number_of_doors;
 	}
-	public int getNumOfDoors(){
-		return numOfDoors;
+
+	public int getNumberOfSeats() {
+		return number_of_seats;
 	}
-	public void setNumofDoors(int numDoor){
-		this.numOfDoors = numDoor;
+
+	public void setNumberOfSeats(int number_of_seats) {
+		this.number_of_seats = number_of_seats;
 	}
-	public int getPrice(){
-		return price;
+
+	public String getPowerSource() {
+		return power_source;
 	}
-	public void setPrice(int price){
-		this.price = price;
+
+	public void setPowerSource(String power_source) {
+		this.power_source = power_source;
 	}
-	public String getPowerSource(){
-		return powerSource;
+
+	public int getStartingPrice() {
+		return starting_price;
 	}
-	public void setPowerSource(String powerS){
-		this.powerSource= powerS;
+
+	public void setStartingPrice(int starting_price) {
+		this.starting_price = starting_price;
 	}
-	public String getCategory(){
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
+	}
+
+	public String getCategory() {
 		return category;
 	}
-	public void setCategory(String category){
+
+	public void setCategory(String category) {
 		this.category = category;
 	}
-	public int getBrandId(){
-		return brandId;
+	
+	@Override
+	public String toString() {
+		return String.format("(%d) %s Model", id, model);
 	}
-	public void setBrandId(int brand){
-		this.brandId = brand;
-	}
+	
+	
+
 }
+
