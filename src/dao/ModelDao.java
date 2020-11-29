@@ -1,141 +1,134 @@
 package dao;
-import java.sql.ResultSet;
 
-import model.*;
+import java.sql.*;
+import java.util.ArrayList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import model.Brand;
+import model.Model;
 import util.DbUtil;
-import model.*;
+
 public class ModelDao {
-	
-	public String getBrandName(Model model){
-		int brandId = model.getBrandId();
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		String brandName = "";
-		try{
-			con = DbUtil.getConnection();
-			String query = "select name from Brand where id=?";
-			ps.setInt(1, brandId);
-			ps = con.prepareStatement(query);
-			rs = ps.executeQuery();
-			if(rs.next()){
-				brandName = rs.getString("name");
-			}
-		}catch (SQLException e) {
-			e.printStackTrace();
+
+	static Connection connection = null;
+	static ResultSet result = null;
+	static String logMessage = "";
+	static int actionResult = 0;
+
+	public static Model createModel(Model model, ResultSet result) throws SQLException {
+		
+		Integer id = result.getInt("model.id");
+		String model_name = result.getString("model");
+		Integer year_issued = result.getInt("year_issued");
+		String category = result.getString("category");
+		String brand_name = result.getString("name");
+		//---------------------------------------------
+		Double battery = result.getDouble("battery");
+		Double power = result.getDouble("power");
+		Integer battery_range = result.getInt("battery_range");
+		Double acceleration = result.getDouble("acceleration");
+		Double top_speed = result.getDouble("top_speed");
+		String drive_type = result.getString("drive_type");
+		Integer number_of_seats = result.getInt("number_of_seats");
+		Integer number_of_doors = result.getInt("number_of_doors");
+		Integer starting_price = result.getInt("starting_price");
+		String power_source = result.getString("power_source");
+		
+		
+		Brand brand = new Brand();
+		
+		brand.setName(brand_name);
+
+		model.setId(id);
+		model.setModel(model_name);
+		model.setYearIssued(year_issued);
+		model.setCategory(category);
+		model.setBrand(brand);
+		model.setBattery(battery);
+		model.setPower(power);
+		model.setBatteryRange(battery_range);
+		model.setAcceleration(acceleration);
+		model.setTopSpeed(top_speed);
+		model.setDriveType(drive_type);
+		model.setNumberOfSeats(number_of_seats);
+		model.setNumberOfDoors(number_of_doors);
+		model.setStartingPrice(starting_price);
+		model.setPowerSource(power_source);
+
+		return model;
+
+	}
+
+	public static ArrayList<Model> findModels(String brand, String model, String year) {
+
+		ArrayList<Model> models = new ArrayList<Model>();
+
+		connection = DbUtil.getConnection();
+
+		String query = "SELECT * FROM Model, Brand WHERE Model.brand = Brand.id";
+
+		// generate the right query string
+
+		if (!model.equals("null")) {
+			query += String.format(" AND model = \"%s\"", model);
+		} else if (!brand.equals("null")) {
+			query += String.format(" AND Brand.name = \"%s\"", brand);
 		}
-		return brandName;
+
+		if (!year.equals("null")) {
+			query += String.format(" AND year_issued = %s", year);
+		}
+
+		// execute the query
+
+		try {
+			result = connection.createStatement().executeQuery(query);
+
+			while (result.next()) {
+
+				Model m = createModel(new Model(), result);
+
+				models.add(m);
+			}
+
+			logMessage = "search models query was successful";
+			actionResult = 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logMessage = "error occurred while searching for models";
+			actionResult = -1;
+		}
+
+		return models;
 	}
 	
-	public String getModelDimensions(Model model){
-		int modelId = model.getId();
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		String dimensions = "";
-		int length =0;
-		int width = 0;
-		int height = 0;
-		try{
-			con = DbUtil.getConnection();
-			String query = "select length, width, height from Dimensions where id=?";
-			ps.setInt(1, modelId);
-			ps = con.prepareStatement(query);
-			rs = ps.executeQuery();
-			if(rs.next()){
-				length = rs.getInt("length");
-				width = rs.getInt("width");
-				height = rs.getInt("height");
-				dimensions = "Length = "+length+" mm, and Width = "+width+" mm, and Height = "+height;
-			}
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return dimensions;
-	}
-	public Model getModelById(int id){
-		Model model = new Model();
+	public static Model loadModel(Model model) {
 		
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
+		int id = model.getId();
 		
-		try{
-			con = DbUtil.getConnection();
-			String query = "select * from Model where id=?";
-			ps.setInt(1, id);
-			ps = con.prepareStatement(query);
-			
-			rs = ps.executeQuery();
-			
-			if(rs.next()){
-				model.setId(rs.getInt("id"));
-				model.setModel(rs.getString("model"));
-				model.setYearIssued(rs.getInt("year_issued"));
-				model.setBattery(rs.getInt("battery"));
-				model.setPower(rs.getInt("power"));
-				model.setBatteryRange(rs.getInt("battery_range"));
-				model.setTopSpeed(rs.getInt("top_speed"));
-				model.setAcceleration(rs.getInt("acceleration"));
-				model.setDriveType(rs.getString("drive_type"));
-				model.setNumberOfSeats(rs.getInt("number_of_seats"));
-				model.setNumberOfDoors(rs.getInt("number_of_doors"));
-				model.setStartingPrice(rs.getInt("starting_price"));
-				model.setPowerSource(rs.getString("power_source"));
-				model.setCategory(rs.getString("category"));
-				model.setBrandId(rs.getInt("brand"));
+		String query = "SELECT * FROM Model, Brand WHERE Model.brand = Brand.id";
+		
+		query += String.format(" AND Model.id = %d", id);
+		
+		connection = DbUtil.getConnection();
+		
+		try {
+			result = connection.createStatement().executeQuery(query);
+			if(result.next()) {
+				createModel(model, result);
 			}
-		}catch (SQLException e) {
+			logMessage = String.format("Model %d was loaded successfully", id);
+			actionResult = 0;
+		} catch (SQLException e) {
 			e.printStackTrace();
+			logMessage = String.format("error loading Model %d", id);
+			actionResult = -1;
 		}
-			
+		
 		return model;
 	}
-	
-	public Model getModelByName(String name){
-		Model model = new Model();
-		
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		try{
-			con = DbUtil.getConnection();
-			String query = "select * from Model where model=?";
-			ps = con.prepareStatement(query);
-			ps.setString(1,name);
-			rs = ps.executeQuery();
-			
-			if(rs.next()){
-				model.setId(rs.getInt("id"));
-				model.setModel(rs.getString("model"));
-				model.setYearIssued(rs.getInt("year_issued"));
-				model.setBattery(rs.getInt("battery"));
-				model.setPower(rs.getInt("power"));
-				model.setBatteryRange(rs.getInt("battery_range"));
-				model.setTopSpeed(rs.getInt("top_speed"));
-				model.setAcceleration(rs.getInt("acceleration"));
-				model.setDriveType(rs.getString("drive_type"));
-				model.setNumberOfSeats(rs.getInt("number_of_seats"));
-				model.setNumberOfDoors(rs.getInt("number_of_doors"));
-				model.setStartingPrice(rs.getInt("starting_price"));
-				model.setPowerSource(rs.getString("power_source"));
-				model.setCategory(rs.getString("category"));
-				model.setBrandId(rs.getInt("brand"));
-			}
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}
-			
-		return model;
+
+	public static String getLogMessage() {
+		return logMessage;
 	}
-	
 
 }

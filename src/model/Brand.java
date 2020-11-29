@@ -35,4 +35,3 @@ public class Brand {
 		return String.format("(%d) %s Brand by %s", id, name, manufacturer);
 	}
 }
-

@@ -17,7 +17,6 @@ public class Model {
 	private String power_source;
 	private String category;
 	private Brand brand;
-	private int brandId;
 	
 	public int getId() {
 		return id;
@@ -25,13 +24,6 @@ public class Model {
 	
 	public void setId(int id) {
 		this.id = id;
-	}
-	public int getBrandId() {
-		return brandId;
-	}
-	
-	public void setBrandId(int Brandid) {
-		this.brandId = Brandid;
 	}
 
 	public String getModel() {
@@ -148,10 +140,9 @@ public class Model {
 	
 	@Override
 	public String toString() {
-		return String.format("(%d) %s Model", id, model);
+		return String.format("(%d) %s Model %d", id, model, year_issued);
 	}
 	
 	
 
 }
-

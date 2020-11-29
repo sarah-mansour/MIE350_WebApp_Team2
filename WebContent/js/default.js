@@ -37,3 +37,12 @@ window.onload = () => {
 	modelInput.onchange = updateModel;
 	
 }
+
+window.onpageshow = () => {
+
+	var brandInput = document.getElementById('brand');
+	var modelInput = document.getElementById('model');
+	
+	brandInput.onchange();
+	modelInput.onchange();
+}
