@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import util.DbUtil;
-
+import model.*;
 public class ModelDao {
 	
 	public String getBrandName(Model model){
@@ -35,7 +35,7 @@ public class ModelDao {
 	}
 	
 	public String getModelDimensions(Model model){
-		int modelId = model.getModelId();
+		int modelId = model.getId();
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -76,18 +76,18 @@ public class ModelDao {
 			rs = ps.executeQuery();
 			
 			if(rs.next()){
-				model.setModelId(rs.getInt("id"));
-				model.setModelName(rs.getString("model"));
+				model.setId(rs.getInt("id"));
+				model.setModel(rs.getString("model"));
 				model.setYearIssued(rs.getInt("year_issued"));
 				model.setBattery(rs.getInt("battery"));
 				model.setPower(rs.getInt("power"));
-				model.setRange(rs.getInt("battery_range"));
-				model.setSpeed(rs.getInt("top_speed"));
+				model.setBatteryRange(rs.getInt("battery_range"));
+				model.setTopSpeed(rs.getInt("top_speed"));
 				model.setAcceleration(rs.getInt("acceleration"));
 				model.setDriveType(rs.getString("drive_type"));
-				model.setNumofSeats(rs.getInt("number_of_seats"));
-				model.setNumofDoors(rs.getInt("number_of_doors"));
-				model.setPrice(rs.getInt("starting_price"));
+				model.setNumberOfSeats(rs.getInt("number_of_seats"));
+				model.setNumberOfDoors(rs.getInt("number_of_doors"));
+				model.setStartingPrice(rs.getInt("starting_price"));
 				model.setPowerSource(rs.getString("power_source"));
 				model.setCategory(rs.getString("category"));
 				model.setBrandId(rs.getInt("brand"));
@@ -114,18 +114,18 @@ public class ModelDao {
 			rs = ps.executeQuery();
 			
 			if(rs.next()){
-				model.setModelId(rs.getInt("id"));
-				model.setModelName(rs.getString("model"));
+				model.setId(rs.getInt("id"));
+				model.setModel(rs.getString("model"));
 				model.setYearIssued(rs.getInt("year_issued"));
 				model.setBattery(rs.getInt("battery"));
 				model.setPower(rs.getInt("power"));
-				model.setRange(rs.getInt("battery_range"));
-				model.setSpeed(rs.getInt("top_speed"));
+				model.setBatteryRange(rs.getInt("battery_range"));
+				model.setTopSpeed(rs.getInt("top_speed"));
 				model.setAcceleration(rs.getInt("acceleration"));
 				model.setDriveType(rs.getString("drive_type"));
-				model.setNumofSeats(rs.getInt("number_of_seats"));
-				model.setNumofDoors(rs.getInt("number_of_doors"));
-				model.setPrice(rs.getInt("starting_price"));
+				model.setNumberOfSeats(rs.getInt("number_of_seats"));
+				model.setNumberOfDoors(rs.getInt("number_of_doors"));
+				model.setStartingPrice(rs.getInt("starting_price"));
 				model.setPowerSource(rs.getString("power_source"));
 				model.setCategory(rs.getString("category"));
 				model.setBrandId(rs.getInt("brand"));

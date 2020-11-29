@@ -1,4 +1,5 @@
 package dao;
+import model.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +25,7 @@ public class CompareDao {
 			else{
 				//add the model to the list
 				ModelDao modelDao = new ModelDao();
-				Model addedModel = modelDao.getModelById(model.getModelId());
+				Model addedModel = modelDao.getModelById(model.getId());
 				compareList.add(addedModel);	
 				
 			}

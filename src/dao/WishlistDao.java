@@ -22,13 +22,14 @@ public class WishlistDao {
 			try{
 				PreparedStatement preparedStatement = connection.
 						prepareStatement("insert into Wishlist(account,model) values (?,?)");
-				preparedStatement.setInt(1,member.getAccountId());
-				preparedStatement.setInt(2,model.getModelId());
+				preparedStatement.setInt(1,member.getId());
+				preparedStatement.setInt(2,model.getId());
 				
 				preparedStatement.executeUpdate();
 				
 				//add model to the wishlist arraylist of that member
-				member.getWishlist().addModel(model);
+				//Sarah removed this 
+				//member.getWishlist().addModel(model);
 			}catch(SQLException e){
 				e.printStackTrace();
 			}
@@ -41,12 +42,12 @@ public class WishlistDao {
 			try {
 				PreparedStatement preparedStatement = connection
 						.prepareStatement("delete from Wishlist where account=? AND model=?");
-				preparedStatement.setInt(1, member.getAccountId());
-				preparedStatement.setInt(2, model.getModelId());
+				preparedStatement.setInt(1, member.getId());
+				preparedStatement.setInt(2, model.getId());
 				
 				preparedStatement.executeUpdate();
-				
-				member.getWishlist().deleteModel(model);
+				//Sarah removed this 
+				//member.getWishlist().deleteModel(model);
 			}catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -64,24 +65,24 @@ public class WishlistDao {
 			
 			PreparedStatement preparedStatement = connection.
 					prepareStatement("select * from Wishlist where id =?");
-			preparedStatement.setInt(1,member.getAccountId());
+			preparedStatement.setInt(1,member.getId());
 			
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()){
 				Model model = new Model();
 				
-				model.setModelId(rs.getInt("id"));
-				model.setModelName(rs.getString("model"));
+				model.setId(rs.getInt("id"));
+				model.setModel(rs.getString("model"));
 				model.setYearIssued(rs.getInt("year_issued"));
 				model.setBattery(rs.getInt("battery"));
 				model.setPower(rs.getInt("power"));
-				model.setRange(rs.getInt("battery_range"));
-				model.setSpeed(rs.getInt("top_speed"));
+				model.setBatteryRange(rs.getInt("battery_range"));
+				model.setTopSpeed(rs.getInt("top_speed"));
 				model.setAcceleration(rs.getInt("acceleration"));
 				model.setDriveType(rs.getString("drive_type"));
-				model.setNumofSeats(rs.getInt("number_of_seats"));
-				model.setNumofDoors(rs.getInt("number_of_doors"));
-				model.setPrice(rs.getInt("starting_price"));
+				model.setNumberOfSeats(rs.getInt("number_of_seats"));
+				model.setNumberOfDoors(rs.getInt("number_of_doors"));
+				model.setStartingPrice(rs.getInt("starting_price"));
 				model.setPowerSource(rs.getString("power_source"));
 				model.setCategory(rs.getString("category"));
 				model.setBrandId(rs.getInt("brand"));
