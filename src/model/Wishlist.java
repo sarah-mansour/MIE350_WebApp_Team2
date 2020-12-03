@@ -1,5 +1,7 @@
 package model;
 
+
+//IGNORE THIS CLASS
 public class Wishlist {
 	
 	private Account account;

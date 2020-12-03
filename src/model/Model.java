@@ -17,6 +17,7 @@ public class Model {
 	private String power_source;
 	private String category;
 	private Brand brand;
+	private String link ;
 	
 	public int getId() {
 		return id;
@@ -136,6 +137,14 @@ public class Model {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = category;
 	}
 	
 	@Override

@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Account {
 	private int id;
 	private String email;
@@ -7,6 +10,7 @@ public class Account {
 	private String first_name;
 	private String last_name;
 	private boolean isValid;
+	private List<Model> wishlist = new ArrayList<Model>();
 	
 	public int getId(){
 		return id;
@@ -59,6 +63,26 @@ public class Account {
 
 	public void setValid(boolean isValid) {
 		this.isValid = isValid;
+	}
+	
+	public List<Model> getUserWishlist(){
+		return this.wishlist;
+	}
+	
+	public boolean checkWishlist(Model model){
+		if (wishlist.contains(model)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	public void addToWishlist(Model model){
+		wishlist.add(model);		
+	}
+	public void removeFromWishlist(Model model){
+		wishlist.remove(model);
+		
 	}
 	
 }

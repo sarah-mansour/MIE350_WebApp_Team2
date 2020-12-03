@@ -18,21 +18,28 @@ public class WishlistDao {
 		//check if user is logged in in the servlett
 		//check if account is valid then add model to the table
 		if (member.isValid() == true){
-			connection = DbUtil.getConnection();
-			try{
-				PreparedStatement preparedStatement = connection.
-						prepareStatement("insert into Wishlist(account,model) values (?,?)");
-				preparedStatement.setInt(1,member.getId());
-				preparedStatement.setInt(2,model.getId());
+			// if wishlist does not contain model do the following
+			if (member.checkWishlist(model)== false){
 				
-				preparedStatement.executeUpdate();
+				member.addToWishlist(model);
+				connection = DbUtil.getConnection();
+				try{
+					PreparedStatement preparedStatement = connection.
+							prepareStatement("insert into Wishlist(account,model) values (?,?)");
+					preparedStatement.setInt(1,member.getId());
+					preparedStatement.setInt(2,model.getId());
+					
+					preparedStatement.executeUpdate();
+					
+										
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
 				
-				//add model to the wishlist arraylist of that member
-				//Sarah removed this 
-				//member.getWishlist().addModel(model);
-			}catch(SQLException e){
-				e.printStackTrace();
+			}else{
+				//print something telling user they already had this model in their wishlist
 			}
+			
 		}
 	}
 	
